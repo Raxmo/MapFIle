@@ -21,7 +21,7 @@ namespace MapFile
 
 		public string Print()
 		{
-			return "ID: " + BiomeID + ", Center X: " + BiomeCenter.X + ", Center Y: " + BiomeCenter.Y;
+			return "ID: " + BiomeID + ", Center X: " + BiomeCenter[0] + ", Center Y: " + BiomeCenter[1];
 		}
 	}
 
@@ -69,8 +69,8 @@ namespace MapFile
 				//first store info into integers
 				var cnk = RawChunks[i];
 				var id = (uint)cnk.BiomeID;
-				var cx = (uint)cnk.BiomeCenter.X;
-				var cy = (uint)cnk.BiomeCenter.Y;
+				var cx = (uint)cnk.BiomeCenter[0];
+				var cy = (uint)cnk.BiomeCenter[1];
 
 				//second, shift everything into the corect place
 				id = id << 12;
@@ -80,7 +80,7 @@ namespace MapFile
 				cx = (ushort)cx;
 				cy = (ushort)cy;
 
-				////third, bitwise AND everything with corect thing in order to set everything up for adition
+				//third, bitwise AND everything with corect thing in order to set everything up for adition
 				id = id & 0b1111_000000_000000;
 				cx = cx & 0b0000_111111_000000;
 				cy = cy & 0b0000_000000_111111;
@@ -116,7 +116,7 @@ namespace MapFile
 				cx = (ushort)cx;
 				cy = (ushort)cy;
 
-				Chunk rc = new Chunk((byte)bd, new Vec(cx, cy));
+				Chunk rc = new Chunk((byte)bd, new Vec() { cx, cy });
 
 				// set everything to proper thing
 				RawChunks[i] = rc;
@@ -195,46 +195,12 @@ namespace MapFile
 					cx = (ushort)cx;
 					cy = (ushort)cy;
 
-					Chunk rc = new Chunk((byte)bd, new Vec(cx, cy));
+					Chunk rc = new Chunk((byte)bd, new Vec() { cx, cy });
 
 					// set everything to proper thing
 					RawChunks[i] = rc;
 				}
 			}
 		}
-	}
-
-	
-
-	public struct ChunkData
-	{
-		
-	}
-
-	public struct Block
-	{
-		/* Info on a per block basis
-		 * 
-		 * biome 1 ID			nibble		4 bits
-		 * biome 1 percent		byte		12 bits
-		 * biome 2 ID			nibble		16 bits
-		 * biome 2 percent		byte		24 bits
-		 * biome 3 ID			nibble		28 bits
-		 * biome 3 percent		byte		36 bits
-		 * 
-		 * resource 1 ID		nibble		40 bits
-		 * resource 1 percent	byte		48 bits
-		 * resource 2 ID		nibble		52 bits
-		 * resource 2 percent	byte		60 bits
-		 * 
-		 * encounter rate		nibble		64 bits
-		 */
-
-		/* Test Block Stuffs
-		 * 
-		 * biome id				nibble		4 bits
-		 * 
-		 */
-
-	}
+	}	
 }
